@@ -1,0 +1,13 @@
+# ignore all directories 
+.venv
+
+# ignore all files
+*.pyc
+
+# ignore packages
+/dist/*
+
+# ignore unit test and coverage files
+.coverage
+.pytest_cache
+
