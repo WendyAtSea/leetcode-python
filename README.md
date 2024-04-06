@@ -38,15 +38,17 @@ Use `poetry` to manage project dependencies
 # run the following commands in your project directory
 pyenv local 3.12.2
 
-# Create a poetry project
-poetry init -n
-cat pyproject.toml
-
 # Initialize and start your virtual environment
+# If you’d like to prevent poetry shell from modifying your shell prompt on virtual environment activation,
+# you should set VIRTUAL_ENV_DISABLE_PROMPT=1 as an environment variable before running the command.
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 poetry shell
 
 # Add dependency
 poetry add <dependency>
+
+# Install dependencies
+poetry install
 
 # Exit your virtual environment
 deactivate
@@ -55,8 +57,36 @@ deactivate
 ## Run Project
 ```bash
 # start environment
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 poetry shell
+
+# Install dependencies
+poetry install
+
+# Install without test and docs
+poetry install --without test,docs
+
+# Update dependencies
+poetry update
 
 # eixt environment
 deactivate
+```
+
+## Setup Project Development Environment
+
+https://python-poetry.org/docs/managing-dependencies/#adding-a-dependency-to-a-group
+
+```bash
+# Add test dependencies
+poetry add pytest --group test
+```
+
+## Run test
+```bash
+# Run all the tests under "tests" directory
+pytest tests -vv
+
+# run a specific test file
+pytest tests/test_medium.py -v
 ```

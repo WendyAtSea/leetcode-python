@@ -1,5 +1,6 @@
 # ignore all directories 
 .venv
+__pycache__
 
 # ignore all files
 *.pyc
