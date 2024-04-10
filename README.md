@@ -73,7 +73,7 @@ poetry update
 deactivate
 ```
 
-## Setup Project Development Environment
+## Setup and Run Unit Tests
 
 https://python-poetry.org/docs/managing-dependencies/#adding-a-dependency-to-a-group
 
@@ -90,3 +90,26 @@ pytest tests -vv
 # run a specific test file
 pytest tests/test_medium.py -v
 ```
+
+## Algorithms
+
+### String matching algorithms
+
+Knuth–Morris–Pratt Algorithm
+Rabin-Karp algorithm (Double Hash)
+
+## TODO
+
+### Leetcode problems
+
+#### Array or String
+
+[E] 2446. Determine if Two Events Have Conflict
+[H] 828. Count Unique Characters of All Substrings of a Given String
+[M] 227. Basic Calculator II
+[E] 2996. Smallest Missing Integer Greater Than Sequential Prefix Sum
+[M] 3043. Find the Length of the Longest Common Prefix
+[H] 3093. Longest Common Suffix Queries
+[H] 214. Shortest Palindrome
+[H] 459. Repeated Substring Pattern
+     

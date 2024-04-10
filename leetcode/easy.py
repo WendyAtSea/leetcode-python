@@ -58,6 +58,78 @@ class SolutionEasy:
                 nums[i] = nums[j]
         return i + 1
     
+    # 28. Find the Index of the First Occurrence in a String
+    # Rabin-Karp algorithm (Double Hash)
+    # Runtime: O(n)
+    # Space: O(1)
+    # More challenges:
+    # [H] 214. Shortest Palindrome
+    # [H] 459. Repeated Substring Pattern   
+    def strStr(self, haystack: str, needle: str) -> int:
+        m = len(needle)
+        n = len(haystack)
+        if n < m: return -1
+
+        # constants
+        # RADIX_1 as the radix of the first hashing mechanism. It should be at least 262626.
+        RADIX_1 = 26 
+        # MOD_1 as the modulus for the first hashing mechanism. It should be a large prime number.
+        MOD_1 = 10**9+33
+        # MAX_WEIGHT_1 as the maximum weightage for the first hashing mechanism. 
+        # It will be RADIX_1 m^{m}. This value is used in the O(1)O(1)O(1) formula. Hence, it's better to store it.
+        MAX_WEIGHT_1 = 1
+        # RADIX_2 as the radix of the second hashing mechanism. It should be at least 262626, and different from RADIX_1.
+        RADIX_2 = 27
+        # MOD_2 as the modulus for the second hashing mechanism. It should be a large prime number, and different from MOD_1.
+        MOD_2 = 2**31-1
+        # MAX_WEIGHT_2 as the maximum weightage for the second hashing mechanism. 
+        # It will be RADIX_2 m^{m}. This value is used in the O(1)O(1)O(1) formula. Hence, it's better to store it.
+        MAX_WEIGHT_2 = 1
+
+        for _ in range(m):
+            MAX_WEIGHT_1 = (MAX_WEIGHT_1 * RADIX_1) % MOD_1
+            MAX_WEIGHT_2 = (MAX_WEIGHT_2 * RADIX_2) % MOD_2
+
+        # Define the hash_pair() function which takes a string as input and returns the hash value pair of the string.
+        # Compute the hash value of the first hashing mechanism using RADIX_1, and MOD_1.
+        # Compute the hash value of the second hashing mechanism using RADIX_2 and MOD_2.
+        def hash_pair(string):
+            hash_1 = hash_2 = 0
+            factor_1 = factor_2 = 1
+            for i in range(m - 1, -1, -1):
+                hash_1 += ((ord(string[i]) - 97) * (factor_1)) % MOD_1
+                factor_1 = (factor_1 * RADIX_1) % MOD_1
+                hash_2 += ((ord(string[i]) - 97) * (factor_2)) % MOD_2
+                factor_2 = (factor_2 * RADIX_2) % MOD_2
+            return [hash_1 % MOD_1, hash_2 % MOD_2]
+    
+        # Compute hash pairs of needle
+        hash_needle = hash_pair(needle)
+
+        # Check for each m-substring of haystack
+        for window_start in range(n - m - 1):
+            if window_start == 0:
+                # Compute hash pairs of the First Substring
+                hash_hay = hash_pair(haystack)
+            else:
+                # Update Hash pairs using Previous using O(1) Value
+                hash_hay[0] = (((hash_hay[0] * RADIX_1) % MOD_1
+                               - ((ord(haystack[window_start - 1]) - 97)
+                                  * (MAX_WEIGHT_1)) % MOD_1
+                               + (ord(haystack[window_start + m - 1]) - 97))
+                               % MOD_1)
+                hash_hay[1] = (((hash_hay[1] * RADIX_2) % MOD_2
+                               - ((ord(haystack[window_start - 1]) - 97)
+                                  * (MAX_WEIGHT_2)) % MOD_2
+                               + (ord(haystack[window_start + m - 1]) - 97))
+                               % MOD_2)
+
+            # If the hash matches, return immediately.
+            # Probability of Spurious Hit tends to zero
+            if hash_needle == hash_hay:
+                return window_start
+        return -1
+    
     # 169. Majority Element 
     # Using Boyer-Moore Voting Algorithm
     # Runtime: O(n)

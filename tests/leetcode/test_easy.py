@@ -38,3 +38,11 @@ def test_removeElement(easy_class_obj: SolutionEasy, nums: list[int], val: int, 
 def test_removeDuplicates(easy_class_obj, nums, expected_k, expected_nums):
     assert easy_class_obj.removeDuplicates(nums) == expected_k
     assert nums[0:expected_k] == expected_nums
+
+# 28. Find the Index of the First Occurrence in a String
+@pytest.mark.parametrize("haystack, needle, expected_result", [
+    (['sadbutsad', 'sad', 0]),
+    (['leetcode', 'leeto', -1])
+])
+def test_strStr(easy_class_obj, haystack, needle, expected_result):
+    assert easy_class_obj.strStr(haystack, needle) == expected_result
