@@ -1,4 +1,5 @@
-from typing import List
+from collections import Counter
+from typing import List, Set
 
 '''
 Practice following questions
@@ -31,27 +32,14 @@ class SolutionMedium:
                 nums[i] = nums[j]
 
         return i + 1
-
-    # 189. Rotate Array
-    # Runtime: O(n)
-    # Space: O(n)
-    # More Challenges:
-    #   [M] 186. Reverse Words in a String II
-    #   [M] 2607. Make K-Subarray Sums Equal
-    def rotate(self, nums: List[int], k: int) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        if k == 0 or len(nums) <= 1: return
-        temp = [0] * len(nums)
-        for i in range(len(nums)):
-            temp[(i + k) % len(nums)] = nums[i]
-        nums[:] = temp
-        
+ 
     # 189. Rotate Array
     # Runtime: O(n)
     # Space: O(1)
-    def rotate_space_saver(self, nums: List[int], k: int) -> None:
+    # More challenges:
+    #   [M] 186. Reverse Words in a String II
+    #   [M] 2607. Make K-Subarray Sums Equal
+    def rotate(self, nums: List[int], k: int) -> None:
         def reverse(start: int, end: int) -> None:
             while start < end:
                 nums[start], nums[end] = nums[end], nums[start]
@@ -205,9 +193,279 @@ class SolutionMedium:
                 result = i + 1
         return result if total_gain >= 0 else -1
 
+    # 15. 3Sum
+    # Runtime: O(nLog(n) + n*n)
+    # Space: O(n)
+    # More challenges:
+    #   [E] 653. Two Sum IV - Input is a BST
+    #   [M] 16. 3Sum Closest
+    #   [M] 18. 4Sum
+    #   [E] 2367. Number of Arithmetic Triplets
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        result = []
+        sorted_nums = sorted(nums)
+    
+        def twoSums(cur_index: int):
+            left, right = cur_index + 1, len(sorted_nums) - 1
+            while left < right:
+                val = sorted_nums[cur_index] + sorted_nums[left] + sorted_nums[right]
+                if val == 0:
+                    result.append([sorted_nums[cur_index], sorted_nums[left], sorted_nums[right]])
+                    left += 1
+                    right -= 1
+                    # skip duplicated values
+                    while left < right and sorted_nums[left] == sorted_nums[left - 1]:
+                        left += 1
+                elif val < 0:
+                    left += 1
+                else:
+                    right -= 1
+       
+        for i in range(len(sorted_nums)):
+            if sorted_nums[i] > 0: break
+            if i == 0 or sorted_nums[i] != sorted_nums[i-1]:
+                twoSums(i)
+        return result
+
+    # 16. 3Sum Closest
+    # Runtime: O(n*n + nLog(n))
+    # Space: O(n)
+    # More challenges
+    #  [H] 548. Split Array with Equal Sum
+    #  [M] 1861. Rotating the Box
+    #  [M] 1498. Number of Subsequences That Satisfy the Given Sum Condition
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        sorted_nums = sorted(nums)
+        result = sum(sorted_nums[:3])
+        min_diff = abs(target - result)
+        for i in range(len(sorted_nums)):
+            left, right = i + 1, len(sorted_nums) - 1
+            while left < right:
+                val = sorted_nums[i] + sorted_nums[left] + sorted_nums[right]
+                if abs(target - val) < min_diff:
+                    result = val
+                    min_diff = abs(target - val)
+                
+                if min_diff == 0:
+                    return result
+                elif val > target:
+                    right -= 1
+                else:
+                    left += 1
+        return result
+    
+    # 259. 3Sum Smaller
+    # Runtime: O(n*n + nLog(n))
+    # Space: O(Log(n))
+    # More challenges:
+    #   [M] 611. Valid Triangle Number
+    #   [M] 2592. Maximize Greatness of an Array
+    #   [M] 2971. Find Polygon With the Largest Perimeter
+
+    def threeSumSmaller(self, nums: List[int], target: int) -> int:
+        if len(nums) < 3: return 0
+
+        sorted_nums = sorted(nums)
+        result = 0
+        for i in range(len(sorted_nums)): 
+            left, right = i + 1, len(sorted_nums) - 1
+            while left < right:
+                val = sorted_nums[i] + sorted_nums[left] + sorted_nums[right]
+                if val < target:
+                    result += right - left # all the combinations in between
+                    left += 1
+                else:
+                    right -= 1
+        return result
+
+    # 209. Minimum Size Subarray Sum
+    # Runtime: O(n) 2*n each node is visited at most twice
+    # Space: O(1)
+    # More challenges:
+    #   [M] 325. Maximum Size Subarray Sum Equals k
+    #   [M] 718. Maximum Length of Repeated Subarray
+    #   [M] 1658. Minimum Operations to Reduce X to Zero
+    def minSubArrayLenTwoPointers(self, target: int, nums: List[int]) -> int:
+        result = len(nums) + 1 # initialize 
+        total = 0
+        left = 0
+        for right in range(len(nums)):
+            total += nums[right]
+            while total >= target:
+                result = min(result, right - left + 1)
+                total -= nums[left]
+                left += 1
+        return result if result <= len(nums) else 0
+
+    # 3. Longest Substring Without Repeating Characters
+    # Runtime: O(n)
+    # Space: O(m) m is the unique number of chars
+    # More challenges:
+    #   [M] 159. Longest Substring with At Most Two Distinct Characters
+    #   [M] 340. Longest Substring with At Most K Distinct Characters
+    #   [H] 992. Subarrays with K Different Integers
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        result = 0
+        left = 0
+        seen = {}  # store char and its latest index
+        for right in range(len(s)):
+            key = s[right]
+            if key in seen:
+                left = max(seen[key], left)
+
+            result = max(result, right - left + 1)
+            seen[key] = right + 1  # start index without curent char
+        return result
+    
+    # 567. Permutation in String
+    # Given two strings s1 and s2, return true if s2 contains a permutation of s1, 
+    # or false otherwise. In other words, return true if one of s1's permutations 
+    # is the substring of s2.
+    # Constraints: s1 and s2 consist of lowercase English letters.
+    # Note: could use a = [0] * 26 [ord(s1[i]) - ord('a')] to keep track of chars
+    # Runtime: O(len(s2) + 26 * (len(s2) - len(s1)))
+    # Space: O(1)
+    # More challenges:
+    #   [M] 438. Find All Anagrams in a String
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        if len(s1) == 0 or len(s2) == 0 or len(s1) > len(s2): return False
+
+        if len(s1) > len(s2): return False
+
+        s1Map = Counter(s1)
+        s2Map = Counter(s2[:len(s1)])
+
+        def isEqual(s1Map: Counter, s2Map: Counter): 
+            if len(s1Map) != len(s2Map): return False
+            for key, val in s1Map.items():
+                if s2Map.get(key, 0) != val:
+                    return False
+            return True
+
+        for i in range(len(s2) - len(s1)):
+            if isEqual(s1Map, s2Map): return True
+
+            key = s2[i]
+            if s2Map[key] == 1:
+                del s2Map[key]
+            else:   
+                s2Map[key] = s2Map[key] - 1
+            
+            key = s2[i + len(s1)]
+            s2Map[key] = s2Map.get(key, 0) + 1
+
+        return isEqual(s1Map, s2Map)
+
+
+    # 291. Word Pattern II
+    # Runtime: O(len(pattern) * len(s))
+    # Space: 
+    # More challenges:
+    #   [M] 1676. Lowest Common Ancestor of a Binary Tree IV
+    #   [M] 2397. Maximum Rows Covered by Columns
+    #   [H] 2953. Count Complete Substrings
+    def wordPatternMatch(self, pattern: str, s: str) -> bool:
+        def isMatch(pIndex: int, sIndex: int, psMap: dict, seen: set) -> bool:
+            # reach the end of the pattern
+            if pIndex == len(pattern):
+                return sIndex == len(s)
+            
+            if len(pattern) - pIndex > len(s) - sIndex: 
+                # not enough letters to match the pattern
+                return False
+            
+            # found the pattern
+            if pattern[pIndex] in psMap:
+                word = psMap[pattern[pIndex]]
+                if len(word) > len(s) - sIndex or word != s[sIndex:sIndex + len(word)]:
+                    return False
+                else:
+                    return isMatch(pIndex + 1, sIndex + len(word), psMap, seen)
+            
+            # the pattern is new and try each substring
+            for i in range(1, len(s) - sIndex + 1):
+                cur = s[sIndex:sIndex + i]
+                if cur in seen: 
+                    continue
+
+                # save current pattern and substring
+                psMap[pattern[pIndex]] = cur
+                seen.add(cur)
+                if isMatch(pIndex + 1, sIndex + i, psMap, seen):
+                    return True
+                
+                # remove the current pattern and substring and retry
+                psMap.pop(pattern[pIndex])
+                seen.remove(cur)
+
+            return False
+
+        psMap = {}
+        seen = set()
+        return isMatch(0, 0, psMap, seen)
+
+    # 128. Longest Consecutive Sequence
+    # Runtime: O(n)
+    # Space: O(n)
+    # More challenges:
+    #   [M] 298. Binary Tree Longest Consecutive Sequence
+    #   [M] 2177. Find Three Consecutive Integers That Sum to a Given Number
+    #   [M] 2274. Maximum Consecutive Floors Without Special Floors
+    def longestConsecutive(self, nums: List[int]) -> int:
+        if len(nums) == 0: return 0
+
+        numSet = set(nums) 
+        seen = set()
+        result = 1
+        for n in nums:
+            if n - 1 in numSet or n in seen: 
+                # find the smallest number in the sequence
+                continue
+
+            seen.add(n)
+            # count up from the smallest to the largest
+            cur = 1
+            while n + 1 in numSet:
+                cur += 1
+                n += 1
+            result = max(result, cur)
+        
+        return result
+
+    # 2177. Find Three Consecutive Integers That Sum to a Given Number
+    # Runtime: O(log(n))
+    # Space: O(1)
+    # More challenges:
+    #   [M] 2240. Number of Ways to Buy Pens and Pencils
+    def sumOfThree(self, num: int) -> List[int]:
+        # num = (n - 1) + n + (n + 1) = 3 * n
+        # n = num // 3
+        # m = num % 3
+        # if m == 0: return [n - 1, n, n + 1]
+        # if m % 3 != 0: return []
+        left = 0
+        right = num - 1
+        while left <= right:
+            mid = left + (left + right) // 2
+            total = mid * 3
+            if total == num:
+                return [mid - 1, mid, mid + 1]
+            elif total > num:
+                right -= 1
+            else:
+                left += 1
+        return []
 
 
 
 if __name__ == '__main__':
     obj = SolutionMedium()
-    print(obj.canCompleteCircuit([1,2,3,4,5], [3,4,5,1,2]))
+    #print(obj.canCompleteCircuit([1,2,3,4,5], [3,4,5,1,2]))
+    #print(obj.threeSum([-2,0,1,1,2]))
+    #print(obj.threeSumSmaller([-1,1,-1,-1], -1))
+    #print(obj.minSubArrayLenTwoPointers(7, [2,3,1,2,4,3]))
+    #print(obj.lengthOfLongestSubstring("abcbaefg"))
+    #print(obj.checkInclusion("ab", "aob")) #abcdxabcde", "abcdeabcdx"))
+    #print(obj.wordPatternMatch("p", "s")) #"aaaa", "asdasdasdasd"))
+    #print(obj.longestConsecutive([1, 100,4,200,1,3,2]))
+    print(obj.sumOfThree(33))

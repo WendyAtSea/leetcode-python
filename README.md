@@ -112,4 +112,24 @@ Rabin-Karp algorithm (Double Hash)
 [H] 3093. Longest Common Suffix Queries
 [H] 214. Shortest Palindrome
 [H] 459. Repeated Substring Pattern
-     
+
+### Two Pointers
+
+[M] 792. Number of Matching Subsequences
+[M] 1055. Shortest Way to Form String
+[M] 2486. Append Characters to String to Make Subsequence
+[H] 42. Trapping Rain Water
+[M] 2517. Maximum Tastiness of Candy Basket
+[M] 2560. House Robber IV
+
+### Matrix
+
+[H] 37. Sudoku Solver
+[M] 54. Spiral Matrix
+[M] 73. Set Matrix Zeroes
+[M] 48. Rotate Image
+[M] 289. Game of Life
+
+### Hashmap
+
+

@@ -28,18 +28,6 @@ def test_rotate(medium_class_obj: SolutionMedium, nums: list[int], k: int, expec
     medium_class_obj.rotate(nums, k)
     assert nums == expected_nums
 
-# 189. Rotate Array
-@pytest.mark.parametrize("nums, k, expected_nums", [
-    ([1,2], 1, [2,1]),
-    ([-1,-100,3,99], 2, [3,99,-1,-100]),
-    ([1,2,3,4,5,6,7], 3, [5,6,7,1,2,3,4]),
-    ([1,2], 3, [2,1]),
-    ([1,2], 4, [1,2])
-])
-def test_rotate_space_saver(medium_class_obj: SolutionMedium, nums: list[int], k: int, expected_nums: list[int]):
-    medium_class_obj.rotate_space_saver(nums, k)
-    assert nums == expected_nums
-
 # 122. Best Time to Buy and Sell Stock II
 @pytest.mark.parametrize("prices, expected_profit", [
     ([7,1,5,3,6,4], 7),
@@ -118,3 +106,84 @@ def test_productExceptSelf(medium_class_obj: SolutionMedium, nums: list[int], ex
 def test_canCompleteCircuit(medium_class_obj: SolutionMedium, gas: list[int], cost: list[int], expected_result: list[int]):
     assert medium_class_obj.canCompleteCircuit(gas, cost) == expected_result
     
+# 15. 3Sum
+@pytest.mark.parametrize("nums, expected_result", [
+    ([-1,0,1,2,-1,-4], [[-1,-1,2],[-1,0,1]]),
+    ([-2,0,1,1,2], [[-2,0,2],[-2,1,1]]),
+    ([0,1,1], []),
+    ([0,0,0,0,0], [[0,0,0]])
+])
+def test_threeSum(medium_class_obj: SolutionMedium, nums: list[int], expected_result: list[list[int]]):
+    assert medium_class_obj.threeSum(nums) == expected_result
+
+# 16. 3Sum Closest
+@pytest.mark.parametrize("nums, target, expected_result", [
+    ([1,1,1,0], 100, 3),
+])
+def test_threeSumCloset(medium_class_obj: SolutionMedium, nums: list[int], target: int, expected_result: int):
+    assert medium_class_obj.threeSumClosest(nums, target) == expected_result
+
+# 16. 3Sum Smaller
+@pytest.mark.parametrize("nums, target, expected_result", [
+    ([-2,0,1,3], 2, 2), # [-2,0,1], [-2, 0, 3]
+    ([], 0, 0),
+    ([0], 0, 0),
+    ([3,1,0,-2], 4, 3),
+    ([-1, 1, -1, -1], -1, 1)
+])
+def test_threeSumSmaller(medium_class_obj: SolutionMedium, nums: list[int], target: int, expected_result: int):
+    assert medium_class_obj.threeSumSmaller(nums, target) == expected_result
+
+# 209. Minimum Size Subarray Sum
+@pytest.mark.parametrize("target, nums, expected_result", [
+    (7, [2,3,1,2,4,3], 2),
+    (4, [1,4,1], 1),
+    (11, [1,1,1], 0)
+])
+def test_minSubArrayLenTwoPointers(medium_class_obj: SolutionMedium, target: int, nums: list[int], expected_result: int):
+    assert medium_class_obj.minSubArrayLenTwoPointers(target, nums) == expected_result 
+
+# 3. Longest Substring Without Repeating Characters
+@pytest.mark.parametrize("s, expected_result", [
+    ("abcabcbb", 3),
+    ("aaaa", 1),
+    ("abcbaefg", 6)
+])
+def test_lengthOfLongestSubstring(medium_class_obj: SolutionMedium, s: str, expected_result: int):
+    assert medium_class_obj.lengthOfLongestSubstring(s) == expected_result
+
+# 567. Permutation in String
+@pytest.mark.parametrize("s1, s2, expected_result", [
+    ("ab", "eidbaooo", True),
+    ('ab', 'eidboaoo', False),
+    ('adc', 'dcda', True),
+    ('abcdxabcde', 'abcdeabcdx', True)
+])
+def test_checkInclusion(medium_class_obj: SolutionMedium, s1: str, s2: str, expected_result: bool):
+    assert medium_class_obj.checkInclusion(s1,s2) == expected_result
+
+# 291. Word Pattern II
+@pytest.mark.parametrize("pattern, s, expected_result", [
+    ("abab", "redblueredblue", True),
+    ("aaaa", "asdasdasdasd", True),
+    ("aabb", "xyzabcxzyabc", False),
+    ("p", "a", True)
+])
+def test_wordPatternMatch(medium_class_obj: SolutionMedium, pattern: str, s: str, expected_result: bool):
+    assert medium_class_obj.wordPatternMatch(pattern, s) == expected_result
+
+# 128. Longest Consecutive Sequence
+@pytest.mark.parametrize("nums, expected_result", [
+    ([100,4,200,1,3,2], 4),
+    ([0,3,7,2,5,8,4,6,0,1], 9)
+])
+def test_longestConsecutive(medium_class_obj: SolutionMedium, nums: list[int], expected_result: int):
+    assert medium_class_obj.longestConsecutive(nums) == expected_result
+
+# 2177. Find Three Consecutive Integers That Sum to a Given Number
+@pytest.mark.parametrize("num, expected_result", [
+    (33, [10,11,12]),
+    (4, [])
+])
+def test_sumOfThree(medium_class_obj: SolutionMedium, num: int, expected_result: list[int]):
+    assert medium_class_obj.sumOfThree(num) == expected_result
