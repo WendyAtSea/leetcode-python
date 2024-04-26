@@ -187,3 +187,45 @@ def test_longestConsecutive(medium_class_obj: SolutionMedium, nums: list[int], e
 ])
 def test_sumOfThree(medium_class_obj: SolutionMedium, num: int, expected_result: list[int]):
     assert medium_class_obj.sumOfThree(num) == expected_result
+
+# 2655. Find Maximal Uncovered Ranges
+@pytest.mark.parametrize("n, ranges, expected_result", [
+    (10, [[3,5],[7,8]], [[0,2],[6,6],[9,9]]),
+    (3, [[0,2]], []),
+    (7, [[2,4],[0,3]], [[5,6]]),
+    (11, [(0,1), (2,5), (3,4), (0,8), (7, 10)], [])
+])
+def test_findMaximalUncoveredRanges(medium_class_obj: SolutionMedium, n: int, ranges: list[list[int]], expected_result: list[list[int]]):
+    assert medium_class_obj.findMaximalUncoveredRanges(n, ranges) == expected_result
+
+# 57. Insert Interval
+@pytest.mark.parametrize("intervals, newInterval, expected_result", [
+    ([[1,5]], [0,0], [[0,0], [1,5]]),
+    ([[1,3],[6,9]], [2,5], [[1,5],[6,9]]),
+    ([[1,2],[3,5],[6,7],[8,10],[12,16]], [4,8], [[1,2],[3,10],[12,16]]),
+    ([[1,2],[5,7]], [3,4], [[1,2],[3,4],[5,7]]),
+    ([[1,3],[5,7]], [3,4], [[1,4],[5,7]]),
+    ([[1,3],[5,7]], [3,6], [[1,7]]),
+    ([[1,2],[5,6]], [3,4], [[1,2],[3,4],[5,6]])
+])
+def test_insert(medium_class_obj: SolutionMedium, intervals: list[list[int]], newInterval: list[int], expected_result: list[list[int]]):
+    assert medium_class_obj.insert(intervals, newInterval) == expected_result
+
+# 150. Evaluate Reverse Polish Notation
+@pytest.mark.parametrize("tokens, expected_result", [
+    (["2","1","+","3","*"], 9),
+    (["4","13","5","/","+"], 6),
+    (["10","6","9","3","+","-11","*","/","*","17","+","5","+"], 22),
+    (["4","-2","/","2","-3","-","-"], -7)
+])
+def test_evalRPN(medium_class_obj: SolutionMedium, tokens: list[str], expected_result: int):
+    assert medium_class_obj.evalRPN(tokens) == expected_result
+
+# 442. Find All Duplicates in an array
+@pytest.mark.parametrize("nums, expected_result", [
+    ([4,3,2,7,8,2,3,1], [2,3]),
+    ([1], []),
+    ([1,1], [1])
+])
+def test_findDuplicates(medium_class_obj: SolutionMedium, nums: list[int], expected_result: list[int]):
+    assert medium_class_obj.findDuplicates(nums) == expected_result

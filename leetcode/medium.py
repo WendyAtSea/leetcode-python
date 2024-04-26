@@ -456,10 +456,147 @@ class SolutionMedium:
                 left += 1
         return []
 
+    # 2655. Find Maximal Uncovered Ranges
+    # Runtime: m = ranges.length O(mLog(m)) + O(m)
+    # Space: 
+    # More challenges:
+    #   [E] 1893. Check if All the Integers in a Range Are Covered
+    def findMaximalUncoveredRanges(self, n: int, ranges: List[List[int]]) -> List[List[int]]:
+        if len(ranges) == 0:
+            return [[0, n]]
+
+        # sort the ranges by the lowest boundary
+        sorted_ranges = sorted(ranges, key = lambda item: item[0])
+        
+        lo, hi = sorted_ranges[0]
+        result = []
+        if lo > 0:
+            result.append([0, lo - 1])
+        
+        for i in range(1, len(sorted_ranges)):
+            cur_lo, cur_hi = sorted_ranges[i]
+
+            # Case 1: current range is inside of (lo, hi)
+            if cur_lo >= lo and cur_hi <= hi:
+                continue
+
+            # Case 2: current range is > (lo, hi)
+            elif cur_lo > hi:
+                if hi + 1 == cur_lo:
+                    # they are connected
+                    hi = cur_hi
+                else:
+                    # no overlap
+                    result.append([hi + 1, cur_lo - 1])
+                    lo, hi = cur_lo, cur_hi
+
+            # Case 3: current range is overlap with (lo, hi)
+            else: 
+                hi = cur_hi
+
+        if hi+1 < n:
+            result.append([hi + 1, n - 1])
+        return result
+
+    # 57. Insert Interval
+    # Runtime: O(intervals.length)
+    # Space: O(n)
+    # More challenges:
+    #   [H] 715. Range Module
+    #   [H] 2276. Count Integers in Intervals
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        result = []
+        if len(intervals) == 0: 
+            result.append(newInterval)
+            return result
+        
+        i = 0
+        newStart, newEnd = newInterval
+        while i < len(intervals):
+            start, end = intervals[i]
+
+            # (start, end) > new interval
+            if newEnd < start:
+                break
+
+            i += 1
+
+            # (start, end) < new interval
+            if newStart > end:
+                result.append([start, end])
+                continue
+
+            # (start, end) is fully overlapped 
+            if start >= newStart and end <= newEnd:
+                continue
+
+            # (start, end) is partially overlapped
+            if start <= newStart:
+                newStart = start
+            if end >= newEnd:
+                newEnd = end
+
+        # insert the new interval
+        result.append([newStart, newEnd])
+
+        # (start, end) > new interval
+        while i < len(intervals): 
+            result.append(intervals[i])
+            i += 1
+
+        return result
+
+    # 150. Evaluate Reverse Polish Notation
+    # Runtime: O(n) n = tokens.length
+    # Space: O(n)
+    # More challenges:
+    #   [H] 282. Expression Add Operators
+    def evalRPN(self, tokens: List[str]) -> int:
+        def cal(tokens: List[str]) -> int:
+            val = tokens.pop()
+            if val == '+':
+                right = cal(tokens) 
+                left = cal(tokens)
+                return left + right
+            elif val == '-':
+                right = cal(tokens) 
+                left = cal(tokens)
+                return left - right
+            elif val == '*':
+                right = cal(tokens) 
+                left = cal(tokens)
+                return left * right
+            elif val == '/':
+                right = cal(tokens)
+                left = cal(tokens)
+                # The division between two integers always truncates toward zero.
+                return int(left / right)
+            else:
+                return int(val)
+        
+        return cal(tokens)
+
+    # # 442. Find All Duplicates in an array
+    # You must write an algorithm that runs in O(n) time and uses only constant extra space.
+    # Runtime: O(n)
+    # Space: O(1)
+    # More challenges:
+    #   2615. Sum of Distances
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        result = []
+        for n in nums:
+            i = abs(n) - 1
+            if nums[i] < 0:
+                result.append(i + 1)
+            nums[i] *= -1
+        return result
+
 
 
 if __name__ == '__main__':
     obj = SolutionMedium()
+    print(obj.evalRPN(["4","-2","/","2","-3","-","-"]))
+    #print(obj.insert([[1,2],[5,7]], [3,4]))  # [[1,7]]
     #print(obj.canCompleteCircuit([1,2,3,4,5], [3,4,5,1,2]))
     #print(obj.threeSum([-2,0,1,1,2]))
     #print(obj.threeSumSmaller([-1,1,-1,-1], -1))
@@ -468,4 +605,5 @@ if __name__ == '__main__':
     #print(obj.checkInclusion("ab", "aob")) #abcdxabcde", "abcdeabcdx"))
     #print(obj.wordPatternMatch("p", "s")) #"aaaa", "asdasdasdasd"))
     #print(obj.longestConsecutive([1, 100,4,200,1,3,2]))
-    print(obj.sumOfThree(33))
+    #print(obj.sumOfThree(33))
+    #print(obj.findMaximalUncoveredRanges(10, [[3,5],[7,8]]))

@@ -141,3 +141,77 @@ class SolutionEasy:
     def majorityElement(self, nums: List[int]) -> int:
         # TODO
         result = 0
+
+    # 1893. Check if All the Integers in a Range Are Covered
+    # 
+    # More challenges:
+    #   [E] 1773. Count Items Matching a Rule
+    #   [E] 1436. Destination City
+    #   [H] 2272. Substring With Largest Variance
+    def isCovered(self, ranges: List[List[int]], left: int, right: int) -> bool:
+        if len(ranges) == 0: return False
+
+        # sort by the lowest boundary
+        sorted_ranges = sorted(ranges, key=lambda item: item[0])
+
+        lo, hi = sorted_ranges[0]
+        if left < lo:
+            return False # the lowest number if out of covered range
+
+        for lo, hi in sorted_ranges:
+            # Case 1: (left, right) is outside of (lo, hi)
+            if left > hi or right < lo:
+                continue
+            # Case 2: (left, right) is covered by (lo, hi)
+            elif left >= lo and right <= hi:
+                return True
+            # Case 3: (left, right) is overlapped on the left side
+            elif left < lo:
+                right = lo - 1
+            # Case 4: (left, right) is overlapped on the right side
+            else:
+                left = hi + 1
+
+        return left >= lo and right <= hi
+
+    # 455. Assign Cookies
+    # Runtime: O(nLog(n) + mLog(m))
+    # Space: O(n + m)
+    # More challenges:
+    #   [H] 2940. Find Building Where Alice and Bob Can Meet
+    #   [M] 2233. Maximum Product After K Increments
+    #   [M] 1498. Number of Subsequences That Satisfy the Given Sum Condition
+    def findContentChildren(self, g: List[int], s: List[int]) -> int:
+        g.sort()
+        s.sort()
+        g_index = 0
+        s_index = 0
+        while g_index < len(g) and s_index < len(s):
+            if s[s_index] >= g[g_index]:
+                g_index += 1
+            s_index += 1
+        return g_index
+    
+    # 448. Find All Numbers Disappeared in an Array
+    # Runtime: O(n)
+    # Space: O(1) You may assume the returned list does not count as extra space.
+    # More challenges:
+    #   [H] 41. First Missing Positive
+    #   [M] 442. Find All Duplicates in an Array
+    #   [M] 1980. Find Unique Binary String
+    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+        for n in nums:
+            i = abs(n) - 1
+            if nums[i] > 0:
+                nums[i] *= -1
+
+        result = []
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                result.append(i + 1)
+        return result
+    
+if __name__ == '__main__':
+    obj = SolutionEasy()
+
+    print(obj.findDisappearedNumbers([4,3,2,7,8,2,3,1]))

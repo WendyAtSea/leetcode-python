@@ -130,6 +130,33 @@ Rabin-Karp algorithm (Double Hash)
 [M] 48. Rotate Image
 [M] 289. Game of Life
 
-### Hashmap
+### Intervals
 
+[H] 352. Data Stream as Disjoint Intervals
+[M] 2655. Find Maximal Uncovered Ranges
+[E] 252. Meeting Rooms
+[E] 495. Teemo Attacking
+[H] 616. Add Bold Tag in String
+[E] 605. Can Place Flowers
+[M] 649. Dota2 Senate
+[M] 735. Asteroid Collision
 
+### Stack
+
+[H] 32. Longest Valid Parentheses
+[H] 301. Remove Invalid Parentheses
+[M] 2116. Check if a Parentheses String Can Be Valid
+[M] 839. Similar String Groups
+[M] 2800. Shortest String That Contains Three Strings
+[M] 2310. Sum of Numbers With Units Digit K
+[M] 2240. Number of Ways to Buy Pens and Pencils
+[H] 239. Sliding Window Maximum
+[H] 716. Max Stack
+[H] 224. Basic Calculator
+
+### Link List
+
+[H] 2306. Naming a Company
+[H] 41. First Missing Positive
+[M] 442. Find All Duplicates in an Array
+[M] 1980. Find Unique Binary String
