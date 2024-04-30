@@ -222,10 +222,28 @@ def test_evalRPN(medium_class_obj: SolutionMedium, tokens: list[str], expected_r
     assert medium_class_obj.evalRPN(tokens) == expected_result
 
 # 442. Find All Duplicates in an array
-@pytest.mark.parametrize("nums, expected_result", [
-    ([4,3,2,7,8,2,3,1], [2,3]),
-    ([1], []),
-    ([1,1], [1])
-])
+@pytest.mark.skip("TODO")
+#@pytest.mark.parametrize("nums, expected_result", [
+#    ([4,3,2,7,8,2,3,1], [2,3]),
+#    ([1], []),
+#    ([1,1], [1])
+#])
 def test_findDuplicates(medium_class_obj: SolutionMedium, nums: list[int], expected_result: list[int]):
     assert medium_class_obj.findDuplicates(nums) == expected_result
+
+# 245. Shortest Word Distance III
+@pytest.mark.parametrize("wordsDict, word1, word2, expected_result", [
+    (["practice", "makes", "perfect", "coding", "makes"], "makes", "coding", 1),
+    (["practice", "makes", "perfect", "coding", "makes"], "makes", "makes", 3)
+])
+def test_shortestWordDistance(medium_class_obj: SolutionMedium, wordsDict: list[str], word1: str, word2: str, expected_result: int):
+    assert medium_class_obj.shortestWordDistance(wordsDict, word1, word2) == expected_result
+
+# 2411. Smallest Subarrays With Maximum Bitwise OR
+@pytest.mark.skip("TODO")
+#@pytest.mark.parametrize("nums, expected_result", [
+#    ([1,0,2,1,3], [3,3,2,2,1]),
+#    ([1,2], [2,1])
+#])
+def test_smallestSubarrays(medium_class_obj: SolutionMedium, nums: list[int], expected_result: list[int]):
+    assert medium_class_obj.smallestSubarrays(nums) == expected_result

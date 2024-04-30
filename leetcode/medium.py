@@ -591,11 +591,42 @@ class SolutionMedium:
             nums[i] *= -1
         return result
 
+    # 245. Shortest Word Distance III
+    # Runtime: O(n)
+    # Space: O(1)
+    # More challenges:
+    #   [E] 243. Shortes Word Distance
+    def shortestWordDistance(self, wordsDict: List[str], word1: str, word2: str) -> int:
+        result = len(wordsDict) + 1
+        prevIndex = -1
+        for i in range(len(wordsDict)):
+            curWord = wordsDict[i]
+            if curWord != word1 and curWord != word2: continue
+
+            if prevIndex != -1 and (curWord != wordsDict[prevIndex] or word1 == word2):
+                result = min(result, i - prevIndex)
+            
+            prevIndex = i
+
+        return result
+
+    # 2411. Smallest Subarrays With Maximum Bitwise OR
+    # Runtime:
+    # Space:
+    # More challenges:
+    #
+    def smallestSubarrays(self, nums: List[int]) -> List[int]:
+        # TODO
+        pass
+
+
+
 
 
 if __name__ == '__main__':
     obj = SolutionMedium()
-    print(obj.evalRPN(["4","-2","/","2","-3","-","-"]))
+    print(obj.shortestWordDistance(["practice", "makes", "perfect", "coding", "makes"], "makes", "coding"))
+    #print(obj.evalRPN(["4","-2","/","2","-3","-","-"]))
     #print(obj.insert([[1,2],[5,7]], [3,4]))  # [[1,7]]
     #print(obj.canCompleteCircuit([1,2,3,4,5], [3,4,5,1,2]))
     #print(obj.threeSum([-2,0,1,1,2]))

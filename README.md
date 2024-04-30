@@ -160,3 +160,24 @@ Rabin-Karp algorithm (Double Hash)
 [H] 41. First Missing Positive
 [M] 442. Find All Duplicates in an Array
 [M] 1980. Find Unique Binary String
+[M] 43. Multiply Strings
+[M] 371. Sum of Two Integers
+[M] 148. Sort List
+[M] 244. Shortest Word Distance II
+[M] 1634. Add Two Polynomials Represented as Linked Lists
+    Note: When polynomial's coefficient == 0, the node is not added to new formular. Look out when this is happened on tail node in the new formular.
+[M] 445. Add Two Numbers II
+    Follow up: Could you solve it without reversing the input lists?
+    Note: carry over, line up for example (1 + 99)
+[M] 2807. Insert Greatest Common Divisors in Linked List
+[M] 2495. Number of Subarrays Having Even Product
+[E] 2843. Count Symmetric Integers
+[H] 23. Merge k Sorted Lists
+[M] 264. Ugly Number II
+[M] 2411. Smallest Subarrays With Maximum Bitwise OR
+[M] 19. Remove Nth Node From End of List
+    Note: do it in one pass by using two pointer which are separated by n steps
+[M] 138. Copy List With Random Pointer
+    Note: First pass: clone the old node and insert the clone right after the new node
+          Second pass: remove the cloned node to a new link list
+    
